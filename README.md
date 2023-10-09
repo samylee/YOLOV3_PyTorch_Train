@@ -60,12 +60,12 @@ python voc_eval.py
 
 ## 复现重点
 - `ours`采用`adam`优化器，而`darknet`采用`sgd`
-- 完全复现`darknet-region_layer`的`loss`计算方式
-  <br>1. 负样本：每个`grid_cell`的5个`bbox`与所有`target`的`iou<0.6`，且不属于正样本`bbox`的下标
-  <br>2. 正样本：每个`grid_cell`的5个`anchors`与`targets`最大`iou`的下标，注意5个`anchors`可以分别预测多个`targets`，并不是只有一个
-  <br>**3. 正样本`confidence`的`target`为`pred`与`target`的`iou`**
-  <br>**4. 正样本`bbox`回归的`wh_scale`为`2-target_w*target_h`**
-  <br>**5. 训练前`12800`个图像时，将所有`(~正样本)`的`bbox_xy`与对应的`grid_cell`中心点`(0.5,0.5)`回归，`scale=0.01`**
+- 完全复现`darknet-yolo_layer`的`loss`计算方式
+  <br>1. 负样本：每个`grid_cell`的3个`bbox`与所有`target`的`iou<0.7`，且不属于正样本`bbox`的下标
+  <br>2. 正样本：每个`grid_cell`的3个`anchors`与`targets`最大`iou`的下标
+  <br>**3. 每个`anchor`可以分别预测多个`targets`，并不是只有一个，且每个`anchor`可预测多个`class`**
+  <br>**4. 正样本`confidence`的`target`为1，不是iou**
+  <br>**5. 正样本`bbox`回归的`wh_scale`为`2-target_w*target_h`**
 
 ## 参考
 https://blog.csdn.net/samylee  
