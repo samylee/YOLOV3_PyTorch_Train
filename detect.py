@@ -27,10 +27,8 @@ def postprocess(outputs, num_classes, anchors, conf_thresh, net_size, img_w, img
     # for num_samples = 1, ..., (C+5)
     predictions = predictions.squeeze(0)
 
-    # conf * classes
-    score = predictions[:, 4] * predictions[:, 5:].max(1)[0]
     # Filter out confidence scores below conf_thresh
-    detections = predictions[score >= conf_thresh].clone()
+    detections = predictions[predictions[:, 4] >= conf_thresh].clone()
     if not detections.size(0):
         return detections
 
